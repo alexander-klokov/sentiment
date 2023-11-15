@@ -59,4 +59,7 @@ def get_dataset_split(split, batch_size=128):
     dataset_train = preprocess_dataset(split, batch_size)
     sentences_train, y_true_batch = next(dataset_train.as_numpy_iterator())
 
-    return sentences_train, y_true_batch
+    X = list(map(lambda s: s.decode("utf-8"), sentences_train))
+    Y = y_true_batch
+
+    return X, Y
