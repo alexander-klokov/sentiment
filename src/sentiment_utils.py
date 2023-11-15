@@ -1,7 +1,7 @@
 import tensorflow as tf
 import tensorflow_datasets as tfds
 
-FILE_NAME_MODEL = 'model/model.keras'
+FILE_NAME_MODEL = 'model/model.h5'
 
 max_len = 200
 
