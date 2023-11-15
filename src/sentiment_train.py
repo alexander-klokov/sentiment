@@ -1,3 +1,6 @@
+import tensorflow as tf
+from tensorflow import keras
+
 from keras.models import Sequential
 from keras.layers import SimpleRNN, Dense
 
@@ -28,7 +31,14 @@ model = Sequential()
 model.add(embedding)
 model.add(SimpleRNN(32))
 model.add(Dense(28, activation='softmax'))
-model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['acc'])
+
+optimizer = keras.optimizers.Adam(learning_rate=1E-4)
+loss = keras.losses.CategoricalCrossentropy(from_logits=False)
+metrics = [
+    keras.metrics.CategoricalAccuracy('accuracy', dtype=tf.float32)
+]
+
+model.compile(optimizer, loss, metrics=metrics)
 
 print(model.summary())
 
