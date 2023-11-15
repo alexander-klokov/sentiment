@@ -51,3 +51,9 @@ def preprocess_dataset(split, batch_size=128):
     ds = ds.prefetch(buffer_size=tf.data.AUTOTUNE)
 
     return ds
+
+def get_dataset_split(split, batch_size=128):
+    dataset_train = preprocess_dataset(split, batch_size)
+    sentences_train, y_true_batch = next(dataset_train.as_numpy_iterator())
+
+    return sentences_train, y_true_batch

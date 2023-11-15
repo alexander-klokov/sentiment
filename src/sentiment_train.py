@@ -7,17 +7,13 @@ from keras.preprocessing.sequence import pad_sequences
 import numpy as np
 
 from sentiment_embeddings import get_embeddings
-from sentiment_utils import FILE_NAME_MODEL, preprocess_dataset
+from sentiment_utils import FILE_NAME_MODEL, get_dataset_split
 
 max_len=200
 embedding_dim = 50
 
-split='train'
-batch_size = 128
-
-# get the data set
-dataset_train = preprocess_dataset(split)
-sentences_train, y_true_batch = next(dataset_train.as_numpy_iterator())
+# get the dataset
+sentences_train, y_true_batch = get_dataset_split('train', batch_size=1024)
 
 training_data = list(map(lambda s: s.decode("utf-8"), sentences_train))
 
