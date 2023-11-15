@@ -10,8 +10,7 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 
 from sentiment_layer_embedding import get_layer_embedding
-from sentiment_utils import FILE_NAME_MODEL, get_dataset_split, max_len
-
+from sentiment_utils import FILE_NAME_MODEL, emotions, get_dataset_split, max_len
 
 # get the training dataset
 X_train, Y_train = get_dataset_split('train', batch_size=1200)
@@ -30,7 +29,7 @@ embedding = get_layer_embedding(tokenizer)
 model = Sequential()
 model.add(embedding)
 model.add(SimpleRNN(32))
-model.add(Dense(28, activation='softmax'))
+model.add(Dense(len(emotions), activation='softmax'))
 
 optimizer = keras.optimizers.Adam(learning_rate=1E-4)
 loss = keras.losses.CategoricalCrossentropy(from_logits=False)
