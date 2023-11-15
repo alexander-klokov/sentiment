@@ -23,9 +23,9 @@ def get_embedding_index():
 
 def get_layer_embedding(tokenizer) :
 
-    embedding_index = get_embedding_index()
+    embedding_index = get_embedding_index() # from GloVe: {'the': [0.1, 0.03, ...], ...}
 
-    word_index = tokenizer.word_index
+    word_index = tokenizer.word_index # from data: {'this': 1, 'my': 2, 'dog': 3, ...}
     num_words = len(word_index) + 1
     embedding_matrix = np.zeros((num_words, embedding_dim))
 
@@ -33,6 +33,8 @@ def get_layer_embedding(tokenizer) :
         embedding_vector = embedding_index.get(word)
         if embedding_vector is not None:
             embedding_matrix[i] = embedding_vector
+
+    # embedding_matrix: word from data - corresponding vector
 
     return Embedding(
         num_words, 

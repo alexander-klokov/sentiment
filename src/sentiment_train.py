@@ -16,6 +16,7 @@ X_train, Y_train = get_dataset_split('train', batch_size=1200)
 tokenizer = Tokenizer()
 tokenizer.fit_on_texts(X_train)
 
+# X_train_indices: [[1, 2, 3, 0, 0, ...], [1, 5, 4, 0, 0], ...] for each sentence in data
 X_train_indices = tokenizer.texts_to_sequences(X_train)
 X_train_indices = pad_sequences(X_train_indices, maxlen=max_len, padding='post')
 
