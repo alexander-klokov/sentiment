@@ -1,26 +1,24 @@
+import sys
+
 import tensorflow as tf
-import tensorflow_datasets as tfds
 
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 
-from sentiment_utils import emotions, FILE_NAME_MODEL
+from sentiment_utils import emotions, FILE_NAME_MODEL, max_len
 
-phrases = [
-    'this is a random phrase',
-    'So happy!'
-]
+for arg in sys.argv:
+    print(arg)
 
-max_len=200
+phrase = sys.argv[1]
 
-tokenizer = tf.keras.preprocessing.text.Tokenizer()
+tokenizer = Tokenizer()
 
-X_test_indices = tokenizer.texts_to_sequences(phrases)
+X_test_indices = tokenizer.texts_to_sequences([phrase])
 X_test_indices = pad_sequences(X_test_indices, maxlen=max_len, padding='post')
 
 model = tf.keras.models.load_model(FILE_NAME_MODEL)
 preds = model.predict(X_test_indices)
 
-for j in range(len(phrases)):
-    max_index = tf.argmax(preds[j])
-    print(phrases[j], ':', emotions[max_index])
+max_index = tf.argmax(preds[0])
+print(phrase, ':', emotions[max_index])

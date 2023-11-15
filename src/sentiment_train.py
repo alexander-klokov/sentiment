@@ -7,13 +7,10 @@ from keras.preprocessing.sequence import pad_sequences
 import numpy as np
 
 from sentiment_embeddings import get_embeddings
-from sentiment_utils import FILE_NAME_MODEL, get_dataset_split
-
-max_len=200
-embedding_dim = 50
+from sentiment_utils import FILE_NAME_MODEL, get_dataset_split, max_len, embedding_dim
 
 # get the dataset
-sentences_train, y_true_batch = get_dataset_split('train', batch_size=1024)
+sentences_train, y_true_batch = get_dataset_split('train', batch_size=4096)
 
 training_data = list(map(lambda s: s.decode("utf-8"), sentences_train))
 
@@ -46,5 +43,5 @@ print(model.summary())
 model.compile(optimizer='rmsprop',loss='binary_crossentropy',metrics=['acc'])
 
 # train the model
-model.fit(X_train_indices, y_true_batch, epochs=5)
+model.fit(X_train_indices, y_true_batch, epochs=15)
 model.save(FILE_NAME_MODEL)
