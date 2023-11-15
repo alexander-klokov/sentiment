@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow import keras
 
 from keras.models import Sequential
-from keras.layers import SimpleRNN, Dense
+from keras.layers import Dense, LSTM, Dropout
 
 # from keras.callbacks import ModelCheckpoint, EarlyStopping
 
@@ -13,7 +13,7 @@ from sentiment_layer_embedding import get_layer_embedding
 from sentiment_utils import FILE_NAME_MODEL, emotions, get_dataset_split, max_len
 
 # get the training dataset
-X_train, Y_train = get_dataset_split('train', batch_size=1200)
+X_train, Y_train = get_dataset_split('train', batch_size=12000)
 
 tokenizer = Tokenizer()
 tokenizer.fit_on_texts(X_train)
@@ -22,13 +22,15 @@ tokenizer.fit_on_texts(X_train)
 X_train_indices = tokenizer.texts_to_sequences(X_train)
 X_train_indices = pad_sequences(X_train_indices, maxlen=max_len, padding='post')
 
-# make the embedding layer
-embedding = get_layer_embedding(tokenizer)
-
 # build the model
+layer_embedding = get_layer_embedding(tokenizer)
+
 model = Sequential()
-model.add(embedding)
-model.add(SimpleRNN(32))
+model.add(layer_embedding)
+model.add(LSTM(64,return_sequences=True))
+model.add(Dropout(0.4))
+model.add(LSTM(64))
+model.add(Dropout(0.3))
 model.add(Dense(len(emotions), activation='softmax'))
 
 optimizer = keras.optimizers.Adam(learning_rate=1E-4)
