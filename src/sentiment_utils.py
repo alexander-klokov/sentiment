@@ -4,7 +4,6 @@ import tensorflow_datasets as tfds
 FILE_NAME_MODEL = 'model/model.keras'
 
 max_len = 200
-embedding_dim = 50
 
 emotions = [
     'admiration',
